@@ -1,0 +1,231 @@
+diploiVersion: v1.0
+type: component
+name: Laravel
+description: Official Diploi component for Laravel
+
+parameterGroups:
+  - name: Laravel Environment Variables
+    identifier: LARAVEL_ENV
+    description: Laravel application environment variables
+    parameters:
+      - name: AppName
+        identifier: APP_NAME
+        defaultValue: Laravel
+        type: string
+      - name: AppEnv
+        identifier: APP_ENV
+        defaultValue: production
+        type: string
+      - name: AppKey
+        identifier: APP_KEY
+        defaultValue: "base64:QKSsyj5wEfP5vQrGKljJ3Hck0p36LqUkxG54bESiD/M="
+        type: secret
+        description: Laravel application encryption key
+      - name: AppDebug
+        identifier: APP_DEBUG
+        defaultValue: 'true'
+        type: string
+        description: Enable/disable debug mode
+      - name: AppUrl
+        identifier: APP_URL
+        defaultValue: http://localhost
+        type: string
+        description: Application URL
+      - name: AppTimezone
+        identifier: APP_TIMEZONE
+        defaultValue: UTC
+        type: string
+        description: Application timezone
+      - name: AppLocale
+        identifier: APP_LOCALE
+        defaultValue: en
+        type: string
+        description: Application locale
+      - name: AppFallbackLocale
+        identifier: APP_FALLBACK_LOCALE
+        defaultValue: en
+        type: string
+        description: Application fallback locale
+      - name: AppFakerLocale
+        identifier: APP_FAKER_LOCALE
+        defaultValue: en_US
+        type: string
+        description: Faker locale for testing
+
+  - name: Database Configuration
+    identifier: DATABASE_CONFIG
+    description: Database connection settings
+    parameters:
+      - name: DatabaseConnection
+        identifier: DB_CONNECTION
+        defaultValue: mysql
+        type: string
+        description: Database driver (mysql, pgsql, sqlite, sqlsrv)
+      - name: DatabaseHost
+        identifier: DB_HOST
+        defaultValue: ""
+        type: string
+        description: Database host address
+      - name: DatabasePort
+        identifier: DB_PORT
+        defaultValue: "3306"
+        type: string
+        description: Database port
+      - name: DatabaseName
+        identifier: DB_DATABASE
+        defaultValue: ""
+        type: string
+        description: Database name
+      - name: DatabaseUsername
+        identifier: DB_USERNAME
+        defaultValue: ""
+        type: string
+        description: Database username
+      - name: DatabasePassword
+        identifier: DB_PASSWORD
+        defaultValue: ""
+        type: secret
+        description: Database password
+      - name: DatabaseCharset
+        identifier: DB_CHARSET
+        defaultValue: utf8mb4
+        type: string
+        description: Database charset
+      - name: DatabaseCollation
+        identifier: DB_COLLATION
+        defaultValue: utf8mb4_unicode_ci
+        type: string
+        description: Database collation
+
+  - name: Cache Configuration
+    identifier: CACHE_CONFIG
+    description: Cache and session settings
+    parameters:
+      - name: CacheDriver
+        identifier: CACHE_DRIVER
+        defaultValue: file
+        type: string
+        description: Cache driver (file, redis, memcached)
+      - name: SessionDriver
+        identifier: SESSION_DRIVER
+        defaultValue: file
+        type: string
+        description: Session driver (file, redis, memcached)
+      - name: SessionLifetime
+        identifier: SESSION_LIFETIME
+        defaultValue: "120"
+        type: string
+        description: Session lifetime in minutes
+
+  - name: Queue Configuration
+    identifier: QUEUE_CONFIG
+    description: Queue and job settings
+    parameters:
+      - name: QueueConnection
+        identifier: QUEUE_CONNECTION
+        defaultValue: sync
+        type: string
+        description: Queue driver (sync, redis, database, sqs)
+      - name: QueueDefault
+        identifier: QUEUE_DEFAULT
+        defaultValue: default
+        type: string
+        description: Default queue name
+
+  - name: Mail Configuration
+    identifier: MAIL_CONFIG
+    description: Mail and notification settings
+    parameters:
+      - name: MailDriver
+        identifier: MAIL_DRIVER
+        defaultValue: smtp
+        type: string
+        description: Mail driver (smtp, sendmail, mailgun, ses)
+      - name: MailHost
+        identifier: MAIL_HOST
+        defaultValue: ""
+        type: string
+        description: SMTP host
+      - name: MailPort
+        identifier: MAIL_PORT
+        defaultValue: "587"
+        type: string
+        description: SMTP port
+      - name: MailUsername
+        identifier: MAIL_USERNAME
+        defaultValue: ""
+        type: string
+        description: SMTP username
+      - name: MailPassword
+        identifier: MAIL_PASSWORD
+        defaultValue: ""
+        type: secret
+        description: SMTP password
+      - name: MailEncryption
+        identifier: MAIL_ENCRYPTION
+        defaultValue: tls
+        type: string
+        description: Mail encryption (tls, ssl)
+
+  - name: Logging Configuration
+    identifier: LOGGING_CONFIG
+    description: Logging and monitoring settings
+    parameters:
+      - name: LogChannel
+        identifier: LOG_CHANNEL
+        defaultValue: stack
+        type: string
+        description: Log channel (stack, single, daily, slack)
+      - name: LogLevel
+        identifier: LOG_LEVEL
+        defaultValue: debug
+        type: string
+        description: Log level (debug, info, notice, warning, error, critical, alert, emergency)
+
+  - name: External Services
+    identifier: EXTERNAL_SERVICES
+    description: Third-party service configurations
+    parameters:
+      - name: RedisHost
+        identifier: REDIS_HOST
+        defaultValue: ""
+        type: string
+        description: Redis host address
+      - name: RedisPassword
+        identifier: REDIS_PASSWORD
+        defaultValue: ""
+        type: secret
+        description: Redis password
+      - name: RedisPort
+        identifier: REDIS_PORT
+        defaultValue: "6379"
+        type: string
+        description: Redis port
+      - name: RedisDatabase
+        identifier: REDIS_DB
+        defaultValue: "0"
+        type: string
+        description: Redis database number
+
+contexts:
+  - name: app
+    identifier: app
+
+hosts:
+  - name: Laravel
+    identifier: app
+    urlFormat: '[label].[default-domain]'
+
+connectionStrings:
+  - name: Internal Address
+    value: http://app.${DIPLOI_NAMESPACE}:8000
+    description: This address is for requests from within the deployment and is inaccessible externally.
+
+images:
+  - identifier: app
+    prebuildImage: ghcr.io/diploi/component-laravel:[tag]
+
+logs:
+  - name: Laravel Log
+    type: log
+    labelSelector: app=app

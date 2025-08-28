@@ -1,6 +1,8 @@
 FROM dunglas/frankenphp:1-php8.2-alpine
 
-WORKDIR /app
+ARG FOLDER=/app
+
+WORKDIR ${FOLDER}
 
 RUN apk add --no-cache \
     git \
@@ -21,7 +23,7 @@ RUN chmod -R 755 /app/storage \
 
 USER devuser
 
-WORKDIR /app/public
+WORKDIR ${FOLDER}/public
 
 EXPOSE 8000
 
