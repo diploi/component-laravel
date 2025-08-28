@@ -1,0 +1,21 @@
+services:
+  laravel-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: laravel-dev
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/app
+      - /app/vendor
+      - /app/node_modules
+      - ./storage:/app/storage
+      - ./bootstrap/cache:/app/bootstrap/cache
+    restart: unless-stopped
+    networks:
+      - laravel-dev
+
+networks:
+  laravel-dev:
+    driver: bridge

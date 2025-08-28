@@ -1,0 +1,38 @@
+FROM dunglas/frankenphp:1-php8.2-alpine
+
+WORKDIR /app
+
+# Install system dependencies and Composer
+RUN apk add --no-cache \
+    git \
+    curl \
+    unzip \
+    bash \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Use Alpine commands for user creation
+RUN addgroup -g 1000 devgroup && \
+    adduser -u 1000 -G devgroup -s /bin/sh -D devuser
+
+# Copy the entire application first
+COPY --chown=devuser:devgroup . /app
+
+# Install PHP dependencies including dev dependencies for development
+RUN composer install --optimize-autoloader --no-interaction
+
+# Set proper permissions
+RUN chmod -R 755 /app/storage \
+    && chmod -R 755 /app/bootstrap/cache \
+    && chown -R devuser:devgroup /app
+
+# Switch to devuser
+USER devuser
+
+# Change to public directory for serving
+WORKDIR /app/public
+
+# Expose port 8000 (FrankenPHP default)
+EXPOSE 8000
+
+# Use FrankenPHP to serve from the public directory
+CMD ["frankenphp", "php-server"]
