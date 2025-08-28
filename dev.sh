@@ -16,12 +16,8 @@ case "$1" in
     echo "📝 View logs: docker-compose -f docker-compose.dev.yml logs -f"
     echo "🛑 Stop: docker-compose -f docker-compose.dev.yml down"
     ;;
-  "run")
-    echo "🐳 Starting with docker run..."
-    ./docker-dev-backend.sh
-    ;;
   "stop")
-    echo "🛑 Stopping containers..."
+    echo "🛑 Stopping containers..."s
     docker-compose -f docker-compose.dev.yml down
     docker stop php-dev 2>/dev/null || true
     docker rm php-dev 2>/dev/null || true

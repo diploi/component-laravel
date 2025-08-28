@@ -9,10 +9,9 @@ services:
     volumes:
       - .:/app
       - /app/vendor
-      - /app/node_modules
       - ./storage:/app/storage
       - ./bootstrap/cache:/app/bootstrap/cache
-    restart: unless-stopped
+    restart: "no"
     networks:
       - laravel-dev
 
