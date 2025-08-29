@@ -37,6 +37,6 @@ USER devuser
 
 WORKDIR ${FOLDER}/public
 
-EXPOSE 8000
+EXPOSE 80
 
 CMD ["frankenphp", "php-server"]

@@ -25,7 +25,7 @@ USER devuser
 
 WORKDIR ${FOLDER}/public
 
-EXPOSE 8000
+EXPOSE 80
 
 # Use FrankenPHP to serve from the public directory
 CMD ["frankenphp", "php-server"]
