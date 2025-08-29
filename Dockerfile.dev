@@ -18,9 +18,6 @@ COPY --chown=devuser:devgroup . /app
 
 RUN composer install --optimize-autoloader --no-interaction
 
-RUN chmod -R 755 /app/storage \
-    && chmod -R 755 /app/bootstrap/cache
-
 USER devuser
 
 EXPOSE 80
