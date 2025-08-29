@@ -37,6 +37,4 @@ USER devuser
 
 EXPOSE 80
 
-ENV CADDYFILE_PATH=${FOLDER}/Caddyfile
-
-CMD ["sh", "-c", "frankenphp run --config ${CADDYFILE_PATH}"]
+CMD ["frankenphp", "php-server"]

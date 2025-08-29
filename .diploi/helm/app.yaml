@@ -51,7 +51,7 @@ spec:
           ports:
             - containerPort: 80
           {{- if eq .Values.stage "development" }}
-          workingDir: /app/{{ .Values.identifier }}
+          workingDir: /app/{{ .Values.identifier }}/public
           {{- end }}
           env:
             {{- range .Values.env }}
