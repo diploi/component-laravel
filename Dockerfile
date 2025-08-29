@@ -35,8 +35,8 @@ COPY --from=builder --chown=devuser:devgroup /app /app
 
 USER devuser
 
-WORKDIR ${FOLDER}/public
-
 EXPOSE 80
 
-CMD ["frankenphp", "php-server"]
+ENV CADDYFILE_PATH=${FOLDER}/Caddyfile
+
+CMD ["sh", "-c", "frankenphp run --config ${CADDYFILE_PATH}"]

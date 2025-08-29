@@ -23,9 +23,8 @@ RUN chmod -R 755 /app/storage \
 
 USER devuser
 
-WORKDIR ${FOLDER}/public
-
 EXPOSE 80
 
-# Use FrankenPHP to serve from the public directory
-CMD ["frankenphp", "php-server"]
+ENV CADDYFILE_PATH=${FOLDER}/Caddyfile
+
+CMD ["sh", "-c", "frankenphp run --config ${CADDYFILE_PATH}"]

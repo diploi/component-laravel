@@ -1,0 +1,7 @@
+:80 {
+    root * ./public
+    php_server
+    
+    # Handle Laravel routing - try files first, then fall back to index.php
+    try_files {path} {path}/ /index.php?{query}
+}
