@@ -12,26 +12,11 @@ parameterGroups:
         identifier: APP_NAME
         defaultValue: Laravel
         type: string
-      - name: AppEnv
-        identifier: APP_ENV
-        defaultValue: local
-        type: string
       - name: AppKey
         identifier: APP_KEY
         defaultValue: "base64:QKSsyj5wEfP5vQrGKljJ3Hck0p36LqUkxG54bESiD/M="
-        type: string
+        type: secret
         description: Laravel application encryption key
-      - name: AppDebug
-        identifier: APP_DEBUG
-        defaultValue: 'true'
-        type: string
-        description: Enable/disable debug mode
-      - name: AppUrl
-        identifier: APP_URL
-        defaultValue: http://localhost
-        type: string
-        description: Application URL
-        readOnly: true
 
 contexts:
   - name: app
