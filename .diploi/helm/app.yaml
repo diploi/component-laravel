@@ -62,8 +62,6 @@ spec:
               value: {{ .Values.hosts.app }}
             - name: STAGE
               value: {{ .Values.stage }}
-            - name: APP_KEY
-              value: {{ .Values.APP_KEY }}
           volumeMounts:
             {{- if hasKey .Values.storage "code" }}
             - name: app-mount
