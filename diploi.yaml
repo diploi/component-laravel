@@ -14,7 +14,7 @@ parameterGroups:
         type: string
       - name: AppKey
         identifier: APP_KEY
-        defaultValue: "base64:${generate-random-bytes:18}"
+        defaultValue: "base64:${generate-random-bytes:32}"
         type: secret
         description: Laravel application encryption key
 
