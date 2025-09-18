@@ -14,13 +14,9 @@ parameterGroups:
         type: string
       - name: AppKey
         identifier: APP_KEY
-        defaultValue: "base64:QKSsyj5wEfP5vQrGKljJ3Hck0p36LqUkxG54bESiD/M="
+        defaultValue: "base64:${generate-random-bytes:18}"
         type: secret
         description: Laravel application encryption key
-
-contexts:
-  - name: app
-    identifier: app
 
 hosts:
   - name: Laravel
@@ -35,8 +31,3 @@ connectionStrings:
 images:
   - identifier: app
     prebuildImage: ghcr.io/diploi/component-laravel:[tag]
-
-logs:
-  - name: Laravel Log
-    type: log
-    labelSelector: app=app
