@@ -1,4 +1,10 @@
+<img alt="icon" src=".diploi/icon.svg" width="32">
+
 # Laravel Component for Diploi
+
+[![launch with diploi badge](https://diploi.com/launch.svg)](https://diploi.com/component/laravel)
+[![component on diploi badge](https://diploi.com/component.svg)](https://diploi.com/component/laravel)
+[![latest tag badge](https://badgen.net/github/tag/diploi/component-laravel)](https://diploi.com/component/laravel)
 
 Launch a trial, no account needed
 https://diploi.com
