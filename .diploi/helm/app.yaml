@@ -39,7 +39,7 @@ spec:
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
           command: ['composer', 'install', '--optimize-autoloader', '--no-interaction']
-          workingDir: /app/{{ .Values.identifier }}
+          workingDir: /app{{ .Values.folder }}
           volumeMounts:
             - name: app-mount
               mountPath: /app
@@ -50,7 +50,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-          workingDir: /app/{{ .Values.identifier }}/public
+          workingDir: /app{{ .Values.folder }}}/public
           env:
             {{- range .Values.env }}
             - name: {{ .identifier }}
