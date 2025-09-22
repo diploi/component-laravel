@@ -50,7 +50,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 80
-          workingDir: /app{{ .Values.folder }}}/public
+          workingDir: /app{{ .Values.folder }}/public
           env:
             {{- range .Values.env }}
             - name: {{ .identifier }}
