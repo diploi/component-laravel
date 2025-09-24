@@ -37,5 +37,4 @@ Will build a production ready image. Image runs `composer install --no-dev --opt
 ## Links
 
 -   [Laravel documentation](https://laravel.com/docs)
--   [Diploi's Laravel component](https://diploi.com/component/laravel)
 
