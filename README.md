@@ -24,7 +24,7 @@ Uses the official [FrankenPHP](https://hub.docker.com/r/dunglas/frankenphp) Dock
 4. Choose **Create Repository** so Diploi generates a new GitHub repo for your project.
 5. Click **Launch Stack**
 
-Check the guide https://docs.diploi.com/
+Check the guide https://diploi.com/blog/hosting_laravel_apps
 
 ### Development
 
@@ -37,4 +37,5 @@ Will build a production ready image. Image runs `composer install --no-dev --opt
 ## Links
 
 -   [Laravel documentation](https://laravel.com/docs)
+-   [Diploi's Laravel component](https://diploi.com/component/laravel)
 
