@@ -16,7 +16,7 @@ RUN apk add --no-cache \
     && mkdir -p /data/caddy/locks
 
 RUN addgroup -g 1000 devgroup && \
-adduser -u 1000 -G devgroup -s /bin/sh -D devuser
+    adduser -u 1000 -G devgroup -s /bin/sh -D devuser
 
 COPY --chown=devuser:devgroup . /app
 
@@ -36,5 +36,7 @@ COPY --from=builder --chown=devuser:devgroup /app /app
 USER devuser
 
 EXPOSE 80
+
+WORKDIR ${FOLDER}/public
 
 CMD ["frankenphp", "php-server"]
