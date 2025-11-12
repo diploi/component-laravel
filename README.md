@@ -36,5 +36,6 @@ Will build a production ready image. Image runs `composer install --no-dev --opt
 
 ## Links
 
--   [Laravel documentation](https://laravel.com/docs)
+- [Adding Laravel to a project](https://docs.diploi.com/building/components/laravel)
+- [Laravel documentation](https://laravel.com/docs)
 
