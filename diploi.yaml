@@ -3,6 +3,8 @@ type: component
 name: Laravel
 description: Official Diploi component for Laravel
 
+supportsAdditionalHosts: { serviceName: 'app'}
+
 parameterGroups:
   - name: Laravel Environment Variables
     identifier: LARAVEL_ENV
@@ -21,13 +23,8 @@ parameterGroups:
 hosts:
   - name: Laravel
     identifier: app
-    urlFormat: '[label].[default-domain]'
-
-connectionStrings:
-  - name: Internal Address
-    value: http://app.${DIPLOI_NAMESPACE}:8000
-    description: This address is for requests from within the deployment and is inaccessible externally.
+    port: 8000
 
 images:
   - identifier: app
-    prebuildImage: ghcr.io/diploi/component-laravel:[tag]
+    prebuildImage: public.ecr.aws/p8t2q7f4/diploi/component-laravel:[tag]

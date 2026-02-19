@@ -3,9 +3,17 @@ kind: Service
 metadata:
   name: app
 spec:
+  {{- if .Values.ports }}
   ports:
-    - port: 8000
+    {{- range .Values.ports }}
+    {{- if eq .serviceName "app" }}
+    - port: {{ .port }}
+      {{- if eq .identifier "app" }}
       targetPort: 80
-      name: app
+      {{- end }}
+      name: {{ .identifier }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
   selector:
     app: app
