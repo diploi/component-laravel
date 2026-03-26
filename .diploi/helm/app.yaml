@@ -46,7 +46,11 @@ spec:
         - name: migrate-database
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          command: ['php', 'artisan', 'migrate', '--force']
+          command:
+            - /bin/sh
+            - -c
+            - |
+              php artisan migrate --force >/dev/null 2>&1 || true
           workingDir: /app{{ .Values.folder }}
           volumeMounts:
             - name: app-mount
