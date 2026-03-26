@@ -23,8 +23,8 @@ RUN apt-get update && apt-get install -y \
     && mkdir -p /data/caddy/locks \
     && rm -rf /var/lib/apt/lists/*
 
-RUN addgroup -g 1000 devgroup && \
-    adduser -u 1000 -G devgroup -s /bin/sh -D devuser
+RUN groupadd -g 1000 devgroup && \
+    useradd -u 1000 -g devgroup -m -s /bin/bash devuser
 
 COPY --chown=devuser:devgroup . /app
 
