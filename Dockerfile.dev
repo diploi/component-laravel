@@ -1,19 +1,32 @@
-FROM dunglas/frankenphp:1-php8.4-alpine
+FROM dunglas/frankenphp:1-php8.4
 
 ARG FOLDER=/app
 
 WORKDIR ${FOLDER}
 
-RUN apk add --no-cache \
+# Install system dependencies + PHP extensions
+RUN apt-get update && apt-get install -y \
     git \
     curl \
     unzip \
     bash \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    libicu-dev \
+    && docker-php-ext-install \
+    pdo_mysql \
+    bcmath \
+    intl \
+    opcache \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN addgroup -g 1000 devgroup && \
-    adduser -u 1000 -G devgroup -s /bin/sh -D devuser
+# Create user (Debian style)
+RUN groupadd -g 1000 devgroup && \
+    useradd -u 1000 -g devgroup -m -s /bin/bash devuser
 
+# Prepare Caddy data directory (fix permissions issue you saw earlier)
+RUN mkdir -p /data/caddy \
+    && chown -R devuser:devgroup /data/caddy
+
+# Switch to non-root user
 USER devuser
 
 EXPOSE 80

@@ -7,13 +7,21 @@ FROM base AS builder
 
 WORKDIR ${FOLDER}
 
-RUN apk add --no-cache \
+RUN apt-get update && apt-get install -y \
     git \
     curl \
     unzip \
     bash \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && mkdir -p /data/caddy/locks
+    libicu-dev \
+    && docker-php-ext-install \
+    pdo_mysql \
+    bcmath \
+    intl \
+    opcache \
+    && curl -sS https://getcomposer.org/installer | php \
+    -- --install-dir=/usr/local/bin --filename=composer \
+    && mkdir -p /data/caddy/locks \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN addgroup -g 1000 devgroup && \
     adduser -u 1000 -G devgroup -s /bin/sh -D devuser
@@ -27,9 +35,21 @@ FROM base AS runner
 
 WORKDIR ${FOLDER}
 
-RUN addgroup -g 1000 devgroup && \
-    adduser -u 1000 -G devgroup -s /bin/sh -D devuser \
-    && mkdir -p /data/caddy/locks
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+    && docker-php-ext-install \
+    pdo_mysql \
+    bcmath \
+    intl \
+    opcache \
+    && mkdir -p /data/caddy/locks \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 1000 devgroup && \
+    useradd -u 1000 -g devgroup -m -s /bin/bash devuser
+
+RUN mkdir -p /data/caddy \
+    && chown -R devuser:devgroup /data/caddy
 
 COPY --from=builder --chown=devuser:devgroup /app /app 
 
