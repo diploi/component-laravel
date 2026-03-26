@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1-php8.3-alpine
+FROM dunglas/frankenphp:1-php8.4-alpine
 
 ARG FOLDER=/app
 
@@ -13,10 +13,6 @@ RUN apk add --no-cache \
 
 RUN addgroup -g 1000 devgroup && \
     adduser -u 1000 -G devgroup -s /bin/sh -D devuser
-
-COPY --chown=devuser:devgroup . /app
-
-RUN composer install --optimize-autoloader --no-interaction
 
 USER devuser
 
