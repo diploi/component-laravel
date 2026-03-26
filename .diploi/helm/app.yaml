@@ -46,14 +46,27 @@ spec:
         - name: migrate-database
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
+          env:
+          - name: DB_HOST
+            value: "{{ .Values.envMap.DB_HOST.value }}"
+          - name: DB_PORT
+            value: "{{ .Values.envMap.DB_PORT.value }}"
+          - name: DB_DATABASE
+            value: "{{ .Values.envMap.DB_DATABASE.value }}"
+          - name: DB_USERNAME
+            value: "{{ .Values.envMap.DB_USERNAME.value }}"
+          - name: DB_PASSWORD
+            value: "{{ .Values.envMap.DB_PASSWORD.value }}"
+          - name: DB_CONNECTION
+            value: "{{ .Values.envMap.DB_CONNECTION.value }}"
           command:
             - /bin/sh
             - -c
             - |
               echo "Clearing config cache..."
-              php artisan config:clear
+              php artisan config:clear && rm -f bootstrap/cache/config.php
 
-              echo "Running database migrations..."
+              echo "Running database migrations for ${DB_CONNECTION}..."
 
               if php artisan migrate --force; then
                 echo "✅ Migrations completed successfully"
