@@ -50,7 +50,14 @@ spec:
             - /bin/sh
             - -c
             - |
-              php artisan migrate --force >/dev/null 2>&1 || true
+              echo "Running database migrations..."
+
+              if php artisan migrate --force; then
+                echo "✅ Migrations completed successfully"
+              else
+                echo "❌ Migration FAILED! Check database connection, schema, or .env"
+                exit 1
+              fi
           workingDir: /app{{ .Values.folder }}
           volumeMounts:
             - name: app-mount
