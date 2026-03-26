@@ -43,6 +43,14 @@ spec:
           volumeMounts:
             - name: app-mount
               mountPath: /app
+        - name: migrate-database
+          image: {{ .Values.images.app }}
+          imagePullPolicy: Always
+          command: ['php', 'artisan', 'migrate', '--force']
+          workingDir: /app{{ .Values.folder }}
+          volumeMounts:
+            - name: app-mount
+              mountPath: /app
       {{- end }}
       containers:
         - name: app
