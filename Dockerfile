@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     bash \
     libicu-dev \
+    libpq-dev \
     && docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql \
@@ -41,6 +42,7 @@ WORKDIR ${FOLDER}
 
 RUN apt-get update && apt-get install -y \
     libicu-dev \
+    libpq-dev \
     && docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql \
