@@ -32,6 +32,9 @@ COPY --chown=devuser:devgroup . /app
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+# Clear config cache to ensure pod env values are loaded
+RUN php artisan config:clear
+
 #Run migration 
 RUN php artisan migrate --force
 

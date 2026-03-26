@@ -50,6 +50,9 @@ spec:
             - /bin/sh
             - -c
             - |
+              echo "Clearing config cache..."
+              php artisan config:clear
+
               echo "Running database migrations..."
 
               if php artisan migrate --force; then
