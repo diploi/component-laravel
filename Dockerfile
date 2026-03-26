@@ -30,6 +30,9 @@ COPY --chown=devuser:devgroup . /app
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
+#Run migration 
+RUN php artisan migrate --force
+
 # Docker running stage
 FROM base AS runner
 
