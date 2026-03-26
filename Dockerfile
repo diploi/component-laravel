@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     && docker-php-ext-install \
     pdo_mysql \
-    pdo_sqlite \
     pdo_pgsql \
     bcmath \
     intl \
@@ -44,7 +43,6 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     && docker-php-ext-install \
     pdo_mysql \
-    pdo_sqlite \
     pdo_pgsql \
     bcmath \
     intl \
