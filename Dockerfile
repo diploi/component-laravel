@@ -35,8 +35,15 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 # Clear config cache to ensure pod env values are loaded
 RUN php artisan config:clear
 
-#Run migration 
-RUN php artisan migrate --force
+# Run passport key generation if required
+RUN if [ ! -d vendor/laravel/passport ]; then \
+    echo "laravel/passport is not installed, skipping key generation." \
+    exit 0 \
+    else \
+    echo "Generating Laravel Passport keys..." \
+    php artisan passport:keys --force \
+    && echo "✅ Passport keys generated successfully"; \
+    fi
 
 # Docker running stage
 FROM base AS runner
