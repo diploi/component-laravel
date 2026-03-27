@@ -48,17 +48,17 @@ spec:
           imagePullPolicy: Always
           env:
           - name: DB_HOST
-            value: "{{ .Values.envMap.DB_HOST.value }}"
+            value: {{ .Values.envMap.DB_HOST.value | default "" | quote }}
           - name: DB_PORT
-            value: "{{ .Values.envMap.DB_PORT.value }}"
+            value: {{ .Values.envMap.DB_PORT.value | default "" | quote }}
           - name: DB_DATABASE
-            value: "{{ .Values.envMap.DB_DATABASE.value }}"
+            value: {{ .Values.envMap.DB_DATABASE.value | default "" | quote }}
           - name: DB_USERNAME
-            value: "{{ .Values.envMap.DB_USERNAME.value }}"
+            value: {{ .Values.envMap.DB_USERNAME.value | default "" | quote }}
           - name: DB_PASSWORD
-            value: "{{ .Values.envMap.DB_PASSWORD.value }}"
+            value: {{ .Values.envMap.DB_PASSWORD.value | default "" | quote }}
           - name: DB_CONNECTION
-            value: "{{ .Values.envMap.DB_CONNECTION.value }}"
+            value: {{ .Values.envMap.DB_CONNECTION.value | default "" | quote }}
           command:
             - /bin/sh
             - -c
