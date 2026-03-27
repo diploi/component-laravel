@@ -46,20 +46,38 @@ spec:
         - name: migrate-database
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          {{- $envMap := (get .Values "envMap" | default (dict)) }}
           env:
-          - name: DB_HOST
-            value: {{ get (get $envMap "DB_HOST" | default (dict)) "value" | default "" | quote }}
-          - name: DB_PORT
-            value: {{ get (get $envMap "DB_PORT" | default (dict)) "value" | default "" | quote }}
-          - name: DB_DATABASE
-            value: {{ get (get $envMap "DB_DATABASE" | default (dict)) "value" | default "" | quote }}
-          - name: DB_USERNAME
-            value: {{ get (get $envMap "DB_USERNAME" | default (dict)) "value" | default "" | quote }}
-          - name: DB_PASSWORD
-            value: {{ get (get $envMap "DB_PASSWORD" | default (dict)) "value" | default "" | quote }}
+          {{- $envMap := (get .Values "envMap" | default (dict)) }}
+
+          {{- with (get $envMap "DB_CONNECTION") }}
           - name: DB_CONNECTION
-            value: {{ get (get $envMap "DB_CONNECTION" | default (dict)) "value" | default "" | quote }}
+            value: {{ .value | quote }}
+          {{- end }}
+
+          {{- with (get $envMap "DB_HOST") }}
+          - name: DB_HOST
+            value: {{ .value | quote }}
+          {{- end }}
+
+          {{- with (get $envMap "DB_PORT") }}
+          - name: DB_PORT
+            value: {{ .value | quote }}
+          {{- end }}
+
+          {{- with (get $envMap "DB_DATABASE") }}
+          - name: DB_DATABASE
+            value: {{ .value | quote }}
+          {{- end }}
+
+          {{- with (get $envMap "DB_USERNAME") }}
+          - name: DB_USERNAME
+            value: {{ .value | quote }}
+          {{- end }}
+
+          {{- with (get $envMap "DB_PASSWORD") }}
+          - name: DB_PASSWORD
+            value: {{ .value | quote }}
+          {{- end }}
           command:
             - /bin/sh
             - -c
