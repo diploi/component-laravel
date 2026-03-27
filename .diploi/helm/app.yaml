@@ -46,25 +46,31 @@ spec:
         - name: migrate-database
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
+          {{- $envMap := (get .Values "envMap" | default (dict)) }}
           env:
           - name: DB_HOST
-            value: {{ .Values.envMap.DB_HOST.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_HOST" | default (dict)) "value" | default "" | quote }}
           - name: DB_PORT
-            value: {{ .Values.envMap.DB_PORT.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_PORT" | default (dict)) "value" | default "" | quote }}
           - name: DB_DATABASE
-            value: {{ .Values.envMap.DB_DATABASE.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_DATABASE" | default (dict)) "value" | default "" | quote }}
           - name: DB_USERNAME
-            value: {{ .Values.envMap.DB_USERNAME.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_USERNAME" | default (dict)) "value" | default "" | quote }}
           - name: DB_PASSWORD
-            value: {{ .Values.envMap.DB_PASSWORD.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_PASSWORD" | default (dict)) "value" | default "" | quote }}
           - name: DB_CONNECTION
-            value: {{ .Values.envMap.DB_CONNECTION.value | default "" | quote }}
+            value: {{ get (get $envMap "DB_CONNECTION" | default (dict)) "value" | default "" | quote }}
           command:
             - /bin/sh
             - -c
             - |
               echo "Clearing config cache..."
               php artisan config:clear && rm -f bootstrap/cache/config.php
+
+              if [ -z "${DB_CONNECTION}" ]; then
+                echo "DB_CONNECTION is empty, skipping migrations."
+                exit 0
+              fi
 
               echo "Running database migrations for ${DB_CONNECTION}..."
 
@@ -86,9 +92,19 @@ spec:
             - /bin/sh
             - -c
             - |
+              if [ ! -d vendor/laravel/passport ]; then
+                echo "laravel/passport is not installed, skipping key generation."
+                exit 0
+              fi
+
               if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
                 echo "Generating Laravel Passport keys..."
-                php artisan passport:keys --force
+                if php artisan passport:keys --force; then
+                  echo "Passport keys generated successfully."
+                else
+                  echo "Passport key generation failed."
+                  exit 1
+                fi
               else
                 echo "Passport keys already exist, skipping generation."
               fi
