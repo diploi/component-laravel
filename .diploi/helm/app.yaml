@@ -78,6 +78,26 @@ spec:
           volumeMounts:
             - name: app-mount
               mountPath: /app
+        
+        - name: generate-passport-keys
+          image: {{ .Values.images.app }}
+          imagePullPolicy: Always
+          command: 
+            - /bin/sh
+            - -c
+            - |
+              if [ ! -f storage/oauth-private.key ] || [ ! -f storage/oauth-public.key ]; then
+                echo "Generating Laravel Passport keys..."
+                php artisan passport:keys --force
+              else
+                echo "Passport keys already exist, skipping generation."
+              fi
+          workingDir: /app{{ .Values.folder }}
+          volumeMounts:
+            - name: app-mount
+              mountPath: /app
+
+
       {{- end }}
       containers:
         - name: app
