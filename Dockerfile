@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
     opcache \
     && curl -sS https://getcomposer.org/installer | php \
     -- --install-dir=/usr/local/bin --filename=composer \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
     && mkdir -p /data/caddy/locks \
     && rm -rf /var/lib/apt/lists/*
 
@@ -31,6 +33,12 @@ RUN groupadd -g 1000 devgroup && \
 COPY --chown=devuser:devgroup . /app
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+RUN if [ -f vite.config.js ] || [ -f vite.config.ts ]; then \
+    echo "Vite config detected, building assets..." \
+    && npm ci \
+    && npm run build; \
+    fi
 
 # Clear config cache to ensure pod env values are loaded
 RUN php artisan config:clear

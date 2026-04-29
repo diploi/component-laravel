@@ -38,7 +38,14 @@ spec:
         - name: install-dependencies
           image: {{ .Values.images.app }}
           imagePullPolicy: Always
-          command: ['composer', 'install', '--optimize-autoloader', '--no-interaction']
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              composer install --optimize-autoloader --no-interaction
+              if [ -f package.json ]; then
+                npm ci || npm install
+              fi
           workingDir: /app{{ .Values.folder }}
           volumeMounts:
             - name: app-mount
@@ -166,6 +173,8 @@ spec:
               value: {{ .Values.hosts.app }}
             - name: STAGE
               value: {{ .Values.stage }}
+            - name: LOG_CHANNEL
+              value: "stderr"
           volumeMounts:
             {{- if hasKey .Values.storage "code" }}
             - name: app-mount
