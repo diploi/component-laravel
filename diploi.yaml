@@ -26,7 +26,7 @@ hosts:
     port: 8000
   - name: Vite
     identifier: vite
-    port: 5174
+    port: 5173
 images:
   - identifier: app
     prebuildImage: public.ecr.aws/p8t2q7f4/diploi/component-laravel:[tag]
