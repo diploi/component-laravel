@@ -50,6 +50,6 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "\
     while [ ! -f ${FOLDER}/package.json ]; do sleep 1; done; \
-    cd ${FOLDER} && npm run dev -- --host 0.0.0.0 & \
+    npm run dev -- --host 0.0.0.0 & \
     exec frankenphp php-server \
     "]
