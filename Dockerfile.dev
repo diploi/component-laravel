@@ -13,13 +13,13 @@ RUN apt-get update && apt-get install -y \
     bash \
     libicu-dev \
     libpq-dev \
+    tini \
     && docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql \
     bcmath \
     intl \
     opcache \
-    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
