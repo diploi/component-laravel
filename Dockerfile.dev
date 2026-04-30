@@ -49,7 +49,7 @@ EXPOSE 5173
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "\
-    echo '[startup] Waiting for artisan in $(pwd)...'; \
+    echo '[startup] Waiting for files in $(pwd)...'; \
     while [ -z \"$(ls -A .)\" ]; do \
     sleep 1; \
     done; \
