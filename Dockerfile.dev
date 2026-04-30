@@ -50,7 +50,7 @@ ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "\
     echo \"[startup] Waiting for artisan in $(pwd)...\"; \
-    while [ ! -f artisan ]; do sleep 1; done; \
+    while [ -z "$(ls -A .)" ]; do sleep 1; done; \
     echo \"[startup] Files ready, starting npm dev server...\"; \
     npm run dev -- --host 0.0.0.0 & \
     echo \"[startup] Starting FrankenPHP server (root: $(pwd)/public)...\"; \
