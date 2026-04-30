@@ -49,10 +49,12 @@ EXPOSE 5173
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "\
-    echo \"[startup] Waiting for artisan in $(pwd)...\"; \
-    while [ -z "$(ls -A .)" ]; do sleep 1; done; \
-    echo \"[startup] Files ready, starting npm dev server...\"; \
+    echo '[startup] Waiting for artisan in $(pwd)...'; \
+    while [ -z \"$(ls -A .)\" ]; do \
+    sleep 1; \
+    done; \
+    echo '[startup] Files ready, starting npm dev server...'; \
     npm run dev -- --host 0.0.0.0 & \
-    echo \"[startup] Starting FrankenPHP server (root: $(pwd)/public)...\"; \
+    echo '[startup] Starting FrankenPHP server (root: $(pwd)/public)...'; \
     exec frankenphp php-server --root public \
     "]
