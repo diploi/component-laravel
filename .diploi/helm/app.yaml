@@ -147,7 +147,7 @@ spec:
           ports:
             - containerPort: 80
           {{- if eq .Values.stage "development" }}
-          workingDir: /app{{ .Values.folder }}/public
+          workingDir: /app{{ .Values.folder }}
           {{- with .Values.containerCommands.developmentStart }}
           command:
             - /bin/sh
