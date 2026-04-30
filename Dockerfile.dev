@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     bcmath \
     intl \
     opcache \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -44,4 +45,6 @@ USER devuser
 EXPOSE 80
 EXPOSE 5173
 
-CMD nohup npm run dev -- --host & exec frankenphp php-server
+ENTRYPOINT ["/sbin/tini", "--"]
+
+CMD ["sh", "-c", "npm run dev -- --host & frankenphp php-server"]
