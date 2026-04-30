@@ -165,6 +165,8 @@ spec:
           {{- end }}
           {{- end }}
           env:
+            - name: __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+              value: .diploi.me
             {{- range .Values.env }}
             - name: {{ .identifier }}
               value: {{ .value | quote }}

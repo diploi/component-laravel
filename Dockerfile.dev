@@ -44,7 +44,4 @@ USER devuser
 EXPOSE 80
 EXPOSE 5173
 
-CMD if [ -f ${FOLDER}/vite.config.js ] || [ -f ${FOLDER}/vite.config.ts ]; then \
-    npm run dev -- --host & \
-    fi; \
-    exec frankenphp php-server
+CMD npm run dev -- --host & exec frankenphp php-server
