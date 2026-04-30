@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     bcmath \
     intl \
     opcache \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && which tini && tini --version
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -45,6 +46,6 @@ USER devuser
 EXPOSE 80
 EXPOSE 5173
 
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "npm run dev -- --host 0.0.0.0 > /tmp/vite.log 2>&1 & sleep 2; frankenphp php-server"]
