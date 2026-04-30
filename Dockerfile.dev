@@ -44,4 +44,4 @@ USER devuser
 EXPOSE 80
 EXPOSE 5173
 
-CMD npm run dev -- --host & exec frankenphp php-server
+CMD nohup npm run dev -- --host & exec frankenphp php-server
