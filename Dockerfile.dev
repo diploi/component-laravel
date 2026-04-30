@@ -49,7 +49,10 @@ EXPOSE 5173
 ENTRYPOINT ["/usr/bin/tini", "--"]
 
 CMD ["sh", "-c", "\
-    while [ ! -f ${FOLDER}/package.json ]; do sleep 1; done; \
+    echo '[startup] Waiting for package.json in ${FOLDER}...'; \
+    while [ ! -f artisan ]; do sleep 1; done; \
+    echo '[startup] package.json found, starting npm dev server...'; \
     npm run dev -- --host 0.0.0.0 & \
+    echo '[startup] Starting FrankenPHP server...'; \
     exec frankenphp php-server \
     "]
