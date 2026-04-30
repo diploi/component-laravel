@@ -19,6 +19,10 @@ parameterGroups:
         defaultValue: "base64:${generate-random-bytes:32}"
         type: secret
         description: Laravel application encryption key
+      - name: APP_URL
+        identifier: APP_URL
+        defaultValue: ${VITE_ENDPOINT}
+        type: string
 
 hosts:
   - name: Laravel
