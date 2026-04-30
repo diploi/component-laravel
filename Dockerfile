@@ -40,17 +40,28 @@ RUN if [ -f vite.config.js ] || [ -f vite.config.ts ]; then \
     && npm run build; \
     fi
 
+# Create required Laravel storage directories excluded by .dockerignore
+RUN mkdir -p storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 # Clear config cache to ensure pod env values are loaded
-RUN php artisan config:clear
+# Clear Laravel caches (avoid broken config/view paths)
+RUN php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear
+
 
 # Run passport key generation if required
 RUN if [ ! -d vendor/laravel/passport ]; then \
-    echo "laravel/passport is not installed, skipping key generation." \
-    exit 0 \
+    echo "laravel/passport is not installed, skipping key generation."; \
     else \
-    echo "Generating Laravel Passport keys..." \
-    php artisan passport:keys --force \
-    && echo "✅ Passport keys generated successfully"; \
+    echo "Generating Laravel Passport keys..." && \
+    php artisan passport:keys --force && \
+    echo "Passport keys generated successfully"; \
     fi
 
 # Docker running stage
@@ -76,7 +87,8 @@ RUN groupadd -g 1000 devgroup && \
 RUN mkdir -p /data/caddy \
     && chown -R devuser:devgroup /data/caddy
 
-COPY --from=builder --chown=devuser:devgroup /app /app 
+COPY --from=builder --chown=devuser:devgroup /app /app
+RUN rm -rf /app/node_modules
 
 USER devuser
 
